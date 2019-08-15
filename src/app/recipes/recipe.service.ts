@@ -1,4 +1,4 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
@@ -7,23 +7,22 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
   providedIn: 'root'
 })
 export class RecipeService {
-  recipeSelected = new EventEmitter<Recipe>();
   private recipes: Recipe[] = [
     new Recipe(
-      'DIO',
-      'THE WORLD, Tomare',
-      'https://i.kym-cdn.com/photos/images/original/000/974/149/f82.png',
+      'Korean Ground Beef and Rice Bowls',
+      'Such a simple meal with all the flavor! ',
+      'https://therecipecritic.com/wp-content/uploads/2017/04/0C4A8325-667x1000.jpg',
       [
-        new Ingredient('Time freeze', 510),
-        new Ingredient('Muda Muda', 91)
+        new Ingredient('rice', 10),
+        new Ingredient('beef', 1)
       ]),
     new Recipe(
-      'DIO',
-      'THE WORLD, Tomare, Oraaaa',
-      'https://i.kym-cdn.com/photos/images/original/000/974/149/f82.png',
+      'Firecracker Chicken',
+      'Crispy chicken tossed in a sweet and spicy sauce',
+      'https://www.dinneratthezoo.com/wp-content/uploads/2017/10/firecracker-chicken-1.jpg',
       [
-        new Ingredient('Time freeze', 50),
-        new Ingredient('Muda Muda', 98)
+        new Ingredient('Chicken', 1.5),
+        new Ingredient('Sauce', 1)
       ])
   ];
 
@@ -35,5 +34,9 @@ export class RecipeService {
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.slService.addIngredients(ingredients);
+  }
+
+  getRecipe(index: number) {
+    return this.recipes[index];
   }
 }
