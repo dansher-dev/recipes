@@ -11,12 +11,12 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class DataStorageService {
-  
+
   constructor(private http: HttpClient,
               private recipeService: RecipeService,
               private authService: AuthService) {
   }
-  
+
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
     this.http.put(

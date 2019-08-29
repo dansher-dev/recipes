@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     HeaderComponent
   ],
   imports: [
+    SharedModule,
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,

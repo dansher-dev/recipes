@@ -15,6 +15,12 @@ export interface AuthResponseData {
   registered?: boolean;
 }
 
+function RequestData(email: string, password: string, returnSecureToken: boolean): void {
+  this.email = email;
+  this.password = password;
+  this.returnSecureToken = returnSecureToken;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,11 +33,7 @@ export class AuthService {
   signup(email: string, password: string) {
     return this.http.post<AuthResponseData>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDah95pau2q5x4wrk97pTG27znCGZGDzdM',
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      }
+      new RequestData(email, password, true)
     ).pipe(catchError(this.handleErr), tap(respData => {
       this.HandleAuth(respData.email, respData.localId, respData.idToken, +respData.expiresIn);
     }));
@@ -41,17 +43,17 @@ export class AuthService {
     const userData: {
       email: string;
       id: string;
-      _token: string;
-      _tokenExpDate: string;
+      authToken: string;
+      authTokenExpDate: string;
     } = JSON.parse(localStorage.getItem('userData'));
     console.log(userData);
     if (!userData) {
       return;
     }
-    const loadedUser = new User(userData.email, userData.id, userData._token, new Date(userData._tokenExpDate));
+    const loadedUser = new User(userData.email, userData.id, userData.authToken, new Date(userData.authTokenExpDate));
     if (loadedUser.token) {
       this.user.next(loadedUser);
-      const expirationDuration = new Date(userData._tokenExpDate).getTime() - new Date().getTime();
+      const expirationDuration = new Date(userData.authTokenExpDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
     }
   }
@@ -59,12 +61,8 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http.post<AuthResponseData>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDah95pau2q5x4wrk97pTG27znCGZGDzdM',
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true
-      }
-    ).pipe(catchError(this.handleErr),tap(respData => {
+      new RequestData(email, password, true)
+    ).pipe(catchError(this.handleErr), tap(respData => {
       this.HandleAuth(respData.email, respData.localId, respData.idToken, +respData.expiresIn);
     }));
   }

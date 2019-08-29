@@ -1,18 +1,13 @@
 import { NgModule } from '@angular/core';
 import { AuthComponent } from './auth.component';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { LoadingSpinnerComponent } from '../shared/loading-spinner/loading-spinner.component';
-import { AlertComponent } from '../shared/alert/alert.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [AuthComponent,
-    LoadingSpinnerComponent,
-    AlertComponent
-  ],
+  declarations: [AuthComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     FormsModule,
     RouterModule.forChild([{ path: '', component: AuthComponent }])
   ]
