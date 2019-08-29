@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthResponseData, AuthService } from './auth.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+
+import { AuthService } from './auth.service';
+import { AuthResponseData } from './auth.models';
+
 
 @Component({
   selector: 'app-auth',
@@ -19,11 +22,11 @@ export class AuthComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSwitchMode() {
+  public onSwitchMode(): void {
     this.isLoginMode = !this.isLoginMode;
   }
 
-  onSubmit(form: NgForm) {
+  public onSubmit(form: NgForm): void {
     if (!form.valid) {
       return;
     }
@@ -38,19 +41,17 @@ export class AuthComponent implements OnInit {
       authObs = this.authService.signup(email, password);
     }
     authObs.subscribe(respData => {
-      console.log(respData);
       this.isLoading = !this.isLoading;
       this.error = null;
       this.router.navigate(['/recipes']);
     }, errorMess => {
-      console.log(errorMess);
       this.error = errorMess;
       this.isLoading = !this.isLoading;
     });
     form.reset();
   }
 
-  onHandleError() {
+  public onHandleError(): void {
     this.error = null;
   }
 

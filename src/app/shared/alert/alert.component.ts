@@ -7,9 +7,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class AlertComponent {
   @Input() message: string;
-  @Output() modalClose = new EventEmitter<void>();
+  @Output() modalClose: EventEmitter<void> = new EventEmitter<void>();
 
-  onClose() {
+  public onClose(): void {
     this.modalClose.emit();
   }
 }

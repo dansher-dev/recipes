@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from './shopping-list.service';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopping-list',
@@ -10,12 +11,13 @@ import { Subscription } from 'rxjs';
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {
   ingredients: Ingredient[];
-  private idSub: Subscription;
+  destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private shoppingListService: ShoppingListService) { }
 
   ngOnInit() {
     this.ingredients = this.shoppingListService.getIngredients();
-    this.idSub = this.shoppingListService.ingredientsChanged
+    this.shoppingListService.ingredientsChanged
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
       (ingredients: Ingredient[]) => {
         this.ingredients = ingredients;
@@ -23,12 +25,13 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     );
   }
 
-  onEditItem(index: number) {
+  public onEditItem(index: number): void {
     this.shoppingListService.editedItem.next(index);
   }
 
   ngOnDestroy(): void {
-    this.idSub.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }

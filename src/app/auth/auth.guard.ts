@@ -8,7 +8,7 @@ import { map, take } from 'rxjs/operators';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService,
               private router: Router) {}
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean |
+  public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean |
     Promise<boolean> |
     Observable<boolean | UrlTree> {
   return this.authService.user.pipe(

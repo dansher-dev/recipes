@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
+import { DataStorageService } from '../../shared/data-storage.service';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -12,10 +13,12 @@ export class RecipeEditComponent implements OnInit {
   id: number;
   editMode = false;
   recipeForm: FormGroup;
+  pattern: RegExp = /^\d{0,3}(\.\d{1,2})?$/;
 
   constructor(private route: ActivatedRoute,
               private recipeService: RecipeService,
-              private router: Router) { }
+              private router: Router,
+              private dataStorage: DataStorageService) { }
 
   ngOnInit() {
     this.route.params
@@ -28,7 +31,7 @@ export class RecipeEditComponent implements OnInit {
       );
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     /*const newRecipe = new Recipe(
       this.recipeForm.value.name,
       this.recipeForm.value.description,
@@ -40,6 +43,7 @@ export class RecipeEditComponent implements OnInit {
     } else {
       this.recipeService.addRecipe(this.recipeForm.value);
     }
+    this.dataStorage.storeRecipes();
     this.onCancel();
   }
 
@@ -47,27 +51,28 @@ export class RecipeEditComponent implements OnInit {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
 
-  onAddIngredient() {
+  public onAddIngredient(): void {
     (this.recipeForm.get('ingredients') as FormArray).push(
       new FormGroup({
         name: new FormControl(null, Validators.required),
         amount: new FormControl( null, [
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)
+          Validators.pattern(this.pattern),
+          Validators.min(0.01)
         ])
       })
     );
   }
 
-  onCancel() {
+  public onCancel(): void {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 
-  onDeleteIngredient(index: number) {
+  public onDeleteIngredient(index: number): void {
     (this.recipeForm.get('ingredients') as FormArray).removeAt(index);
   }
 
-  private initForm() {
+  private initForm(): void {
     let recipeName = '';
     let recipeImgPath = '';
     let recipeDesc = '';
@@ -83,7 +88,8 @@ export class RecipeEditComponent implements OnInit {
             name: new FormControl(ingredient.name, Validators.required),
             amount: new FormControl(ingredient.amount, [
               Validators.required,
-              Validators.pattern(/^[1-9]+[0-9]*$/)
+              Validators.pattern(this.pattern),
+              Validators.min(0.01)
             ])
           })
           );

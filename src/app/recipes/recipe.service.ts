@@ -31,34 +31,34 @@ export class RecipeService {
 
   constructor( private slService: ShoppingListService) { }
 
-  setRecipes(recipes: Recipe[]) {
+  public setRecipes(recipes: Recipe[]): void {
     this.recipes = recipes;
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  getRecipes() {
+  public getRecipes(): Recipe[] {
     return this.recipes.slice();
   }
 
-  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+  public addIngredientsToShoppingList(ingredients: Ingredient[]): void {
     this.slService.addIngredients(ingredients);
   }
 
-  addRecipe(recipe: Recipe) {
+  public addRecipe(recipe: Recipe): void {
     this.recipes.push(recipe);
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  updateRecipe(index: number, newRecipe: Recipe) {
+  public updateRecipe(index: number, newRecipe: Recipe): void {
     this.recipes[index] = newRecipe;
     this.recipesChanged.next(this.recipes.slice());
   }
 
-  getRecipe(index: number) {
+  public getRecipe(index: number): Recipe {
     return this.recipes[index];
   }
 
-  deleteRecipe(index: number) {
+  public deleteRecipe(index: number): void {
     this.recipes.splice(index, 1);
     this.recipesChanged.next(this.recipes.slice());
   }

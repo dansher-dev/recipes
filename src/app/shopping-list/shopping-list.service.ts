@@ -12,35 +12,35 @@ export class ShoppingListService {
   editedItem = new Subject<number>();
   private ingredients: Ingredient[] = [
     new Ingredient('Beef', 5),
-    new Ingredient('Chicken', 0.5)
+    new Ingredient('Chicken', 1.5)
   ];
 
   constructor() { }
 
-  getIngredients() {
+  public getIngredients(): Ingredient[] {
     return this.ingredients.slice();
   }
 
-  getIngredient(index: number) {
+  public getIngredient(index: number): Ingredient {
     return this.ingredients[index];
   }
 
-  addIngredient(ingredient: Ingredient) {
+  public addIngredient(ingredient: Ingredient): void {
     this.ingredients.push(ingredient);
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  addIngredients(ingredients: Ingredient[]) {
+  public addIngredients(ingredients: Ingredient[]): void {
     this.ingredients.push(...ingredients);
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  updateIngredient(index: number, newIngredient: Ingredient) {
+  public updateIngredient(index: number, newIngredient: Ingredient): void {
     this.ingredients[index] = newIngredient;
     this.ingredientsChanged.next(this.ingredients.slice());
   }
 
-  deleteIngredient(index: number) {
+  public deleteIngredient(index: number): void {
     this.ingredients.splice(index, 1);
     this.ingredientsChanged.next(this.ingredients.slice());
   }

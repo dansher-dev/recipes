@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Ingredient } from '../../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list.service';
 import { NgForm } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -10,8 +11,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./shopping-edit.component.css']
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {
-  @ViewChild('f', {static: false}) slForm: NgForm;
-  subscription: Subscription;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild('shoppingForm', {static: false}) slForm: NgForm;
   editMode = false;
   editedIndex: number;
   editedItem: Ingredient;
@@ -19,7 +20,8 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   constructor(private shoppingListService: ShoppingListService) { }
 
   ngOnInit() {
-    this.subscription = this.shoppingListService.editedItem
+    this.shoppingListService.editedItem
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         (index: number) => {
           this.editedIndex = index;
@@ -32,7 +34,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
         }
       );
   }
-  onSubmit(form: NgForm) {
+  public onSubmit(form: NgForm): void {
     const value = form.value;
     const newIngredient = new Ingredient(value.name, value.amount);
     if (this.editMode) {
@@ -43,17 +45,18 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
     this.editMode = false;
     form.reset();
   }
-  onClear() {
+  public onClear(): void {
     this.editMode = false;
     this.slForm.reset();
   }
 
-  onDelete() {
+  public onDelete(): void {
     this.shoppingListService.deleteIngredient(this.editedIndex);
     this.onClear();
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

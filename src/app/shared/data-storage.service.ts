@@ -5,6 +5,7 @@ import { RecipeService } from '../recipes/recipe.service';
 
 import { Recipe } from '../recipes/recipe.model';
 import { AuthService } from '../auth/auth.service';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -13,21 +14,18 @@ import { AuthService } from '../auth/auth.service';
 export class DataStorageService {
 
   constructor(private http: HttpClient,
-              private recipeService: RecipeService,
-              private authService: AuthService) {
+              private recipeService: RecipeService) {
   }
 
-  storeRecipes() {
+  public storeRecipes(): void {
     const recipes = this.recipeService.getRecipes();
     this.http.put(
       'https://recipe-be-angular.firebaseio.com/recipes.json',
       recipes)
-      .subscribe(response => {
-        console.log(response);
-      });
+      .subscribe();
   }
 
-  fetchRecipes() {
+  public fetchRecipes(): Observable<Recipe[]> {
     return this.http.get<Recipe[]>('https://recipe-be-angular.firebaseio.com/recipes.json',
     )
       .pipe(
