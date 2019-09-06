@@ -30,8 +30,8 @@ export class AuthComponent implements OnInit {
     if (!form.valid) {
       return;
     }
-    const email = form.value.email;
-    const password = form.value.password;
+    const email: string = form.value.email;
+    const password: string = form.value.password;
     let authObs: Observable<AuthResponseData>;
 
     this.isLoading = !this.isLoading;

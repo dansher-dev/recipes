@@ -12,7 +12,7 @@ import { AuthResponseData, RequestData, UserData, Errors } from './auth.models';
 })
 export class AuthService {
   user: BehaviorSubject<User> = new BehaviorSubject<User>(null);
-  private tokenExpTimer: any;
+  private tokenExpTimer: ReturnType<typeof setTimeout>;
 
   constructor(private http: HttpClient, private router: Router) { }
 

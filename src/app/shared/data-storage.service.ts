@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { exhaustMap, map, take, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { map, tap } from 'rxjs/operators';
 import { RecipeService } from '../recipes/recipe.service';
 
 import { Recipe } from '../recipes/recipe.model';
-import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 
 
@@ -18,7 +17,7 @@ export class DataStorageService {
   }
 
   public storeRecipes(): void {
-    const recipes = this.recipeService.getRecipes();
+    const recipes: Recipe[] = this.recipeService.getRecipes();
     this.http.put(
       'https://recipe-be-angular.firebaseio.com/recipes.json',
       recipes)

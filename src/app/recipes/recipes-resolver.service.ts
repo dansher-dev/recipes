@@ -14,7 +14,7 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
   constructor(private dataStorageSv: DataStorageService, private recipesService: RecipeService) { }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Recipe[] | Observable<Recipe[]> {
-    const recipes = this.recipesService.getRecipes();
+    const recipes: Recipe[] = this.recipesService.getRecipes();
     if (recipes.length === 0) {
       return this.dataStorageSv.fetchRecipes();
     } else {
