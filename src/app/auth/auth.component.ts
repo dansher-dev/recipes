@@ -17,7 +17,8 @@ export class AuthComponent implements OnInit {
   isLoading = false;
   error: string = null;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
   ngOnInit() {
   }
@@ -28,12 +29,12 @@ export class AuthComponent implements OnInit {
 
   public onSubmit(form: NgForm): void {
     if (!form.valid) {
+      this.error = 'Please make sure you use valid email and valid password(min 6 symbols)';
       return;
     }
     const email: string = form.value.email;
     const password: string = form.value.password;
     let authObs: Observable<AuthResponseData>;
-
     this.isLoading = !this.isLoading;
     if (this.isLoginMode) {
       authObs = this.authService.login(email, password);
@@ -54,5 +55,5 @@ export class AuthComponent implements OnInit {
   public onHandleError(): void {
     this.error = null;
   }
-
+  
 }

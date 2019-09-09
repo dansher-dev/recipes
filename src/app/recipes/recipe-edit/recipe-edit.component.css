@@ -1,5 +1,5 @@
-input.ng-invalid,
-textarea.ng-invalid{
+input.ng-invalid.ng-dirty,
+textarea.ng-invalid.ng-dirty{
   border: 1px solid red;
 }
 .btn-group {

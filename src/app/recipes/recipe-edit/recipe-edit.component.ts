@@ -15,6 +15,7 @@ export class RecipeEditComponent implements OnInit {
   editMode = false;
   recipeForm: FormGroup;
   pattern: RegExp = /^\d{0,3}(\.\d{1,2})?$/;
+  reg: RegExp = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
 
   constructor(private route: ActivatedRoute,
               private recipeService: RecipeService,
@@ -93,7 +94,7 @@ export class RecipeEditComponent implements OnInit {
     }
     this.recipeForm = new FormGroup({
       name: new FormControl(recipeName, Validators.required),
-      imagePath: new FormControl(recipeImgPath, Validators.required),
+      imagePath: new FormControl(recipeImgPath, [Validators.required, Validators.pattern(this.reg)]),
       description: new FormControl(recipeDesc, Validators.required),
       ingredients: recipeIngredients
     });

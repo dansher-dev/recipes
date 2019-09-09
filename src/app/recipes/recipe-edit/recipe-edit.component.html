@@ -21,6 +21,7 @@
             <input
               type="text"
               id="imagePath"
+              name="imagePath"
               formControlName="imagePath"
               #imagePath
               class="form-control"
@@ -30,7 +31,12 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <img [src]="imagePath.value" alt="recipe image" class="img-responsive">
+          <img [src]="imagePath.value"
+               *ngIf="recipeForm.controls.imagePath.valid"
+               alt="recipe image"
+               class="img-responsive"
+               onError="this.src='./assets/wrong-link.jpg';"
+          >
         </div>
       </div>
       <div class="row">
