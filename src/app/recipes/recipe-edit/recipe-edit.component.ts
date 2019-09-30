@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FormControl, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 import { DataStorageService } from '../../shared/data-storage.service';
 import { Recipe } from '../recipe.model';
@@ -43,7 +43,7 @@ export class RecipeEditComponent implements OnInit {
     this.onCancel();
   }
 
-  get controls() {
+  get controls(): AbstractControl[] {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
   }
 

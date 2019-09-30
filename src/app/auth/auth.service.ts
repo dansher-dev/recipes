@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { User } from './user.model';
 import { Router } from '@angular/router';
 
-import { AuthResponseData, RequestData, UserData, Errors } from './auth.models';
+import { AuthResponseData, UserData, Errors } from './auth.models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +16,20 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  private static handleErr(errorRes: HttpErrorResponse): Observable<never> {
+    let error = 'An unexpected error occurred';
+    if (!errorRes.error || !errorRes.error.error) {
+      return throwError(error);
+    }
+    error = Errors[errorRes.error.error.message];
+    return  throwError(error);
+  }
+
   public signup(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDah95pau2q5x4wrk97pTG27znCGZGDzdM',
-      new RequestData(email, password, true)
-    ).pipe(catchError(this.handleErr), tap(respData => {
+      { email, password, returnSecureToken: true }
+    ).pipe(catchError(AuthService.handleErr), tap(respData => {
       this.HandleAuth(respData.email, respData.localId, respData.idToken, +respData.expiresIn);
     }));
   }
@@ -41,8 +50,8 @@ export class AuthService {
   public login(email: string, password: string): Observable<AuthResponseData> {
     return this.http.post<AuthResponseData>(
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDah95pau2q5x4wrk97pTG27znCGZGDzdM',
-      new RequestData(email, password, true)
-    ).pipe(catchError(this.handleErr), tap(respData => {
+      { email, password, returnSecureToken: true }
+    ).pipe(catchError(AuthService.handleErr), tap(respData => {
       this.HandleAuth(respData.email, respData.localId, respData.idToken, +respData.expiresIn);
     }));
   }
@@ -69,14 +78,5 @@ export class AuthService {
     this.user.next(user);
     this.autoLogout(expiresIn * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
-  }
-
-  private handleErr(errorRes: HttpErrorResponse): Observable<never> {
-    let error = 'An unexpected error occurred';
-    if (!errorRes.error || !errorRes.error.error) {
-      return throwError(error);
-    }
-    error = Errors[errorRes.error.error.message];
-    return  throwError(error);
   }
 }

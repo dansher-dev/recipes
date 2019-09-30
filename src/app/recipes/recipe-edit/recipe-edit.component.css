@@ -8,3 +8,6 @@ textarea.ng-invalid.ng-dirty{
 .row{
   margin-top: 10px;
 }
+.img-responsive {
+  max-height: 300px;
+}

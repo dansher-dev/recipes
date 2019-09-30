@@ -15,12 +15,6 @@ export interface UserData {
   authTokenExpDate: string;
 }
 
-export function RequestData(email: string, password: string, returnSecureToken: boolean): void {
-  this.email = email;
-  this.password = password;
-  this.returnSecureToken = returnSecureToken;
-}
-
 export enum Errors {
   EMAIL_EXISTS = 'Email already used',
   OPERATION_NOT_ALLOWED = 'Sign up is disabled',
