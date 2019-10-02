@@ -1,3 +1,7 @@
-.img-responsive {
-  max-height: 50px;
+a:hover, a:focus {
+  text-decoration: none;
+  background-color: aliceblue;
+}
+mat-card-header {
+  margin-bottom: 5px;
 }

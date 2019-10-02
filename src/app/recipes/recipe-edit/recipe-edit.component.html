@@ -3,30 +3,30 @@
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
       <div class="row">
         <div class="col-xs-12">
-          <div class="form-group">
-            <label for="name">Name</label>
+          <mat-form-field class="full-width">
             <input
               type="text"
               id="name"
+              matInput
+              placeholder="Name"
               formControlName="name"
-              class="form-control"
             >
-          </div>
+          </mat-form-field>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <div class="form-group">
-            <label for="imagePath">Image URL</label>
+          <mat-form-field class="full-width">
             <input
               type="text"
               id="imagePath"
               name="imagePath"
               formControlName="imagePath"
               #imagePath
-              class="form-control"
+              matInput
+              placeholder="Image URL"
             >
-          </div>
+          </mat-form-field>
         </div>
       </div>
       <div class="row">
@@ -41,16 +41,16 @@
       </div>
       <div class="row">
         <div class="col-xs-12">
-          <div class="form-group">
-            <label for="description">Description</label>
+          <mat-form-field class="full-width">
             <textarea
               id="description"
-              class="form-control"
+              matInput
+              placeholder="Description"
               formControlName="description"
               rows="6"
             >
             </textarea>
-          </div>
+          </mat-form-field>
         </div>
       </div>
       <div class="row">
@@ -61,25 +61,31 @@
             [formGroupName]="i"
           >
             <div class="col-xs-8">
-              <input
-                type="text"
-                class="form-control"
-                formControlName="name"
-              >
+              <mat-form-field class="full-width">
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Name"
+                  formControlName="name"
+                >
+              </mat-form-field>
             </div>
             <div class="col-xs-2">
-              <input
-                type="number"
-                class="form-control"
-                formControlName="amount"
-              >
+              <mat-form-field>
+                <input
+                  type="number"
+                  matInput
+                  placeholder="Amount"
+                  formControlName="amount"
+                >
+              </mat-form-field>
             </div>
             <div class="col-xs-2">
               <button
-                type="button"
-                class="btn btn-danger"
+                mat-icon-button
+                color="warn"
                 (click)="onDeleteIngredient(i)"
-              >X</button>
+              ><mat-icon>cancel</mat-icon></button>
             </div>
           </div>
           <hr>
@@ -87,7 +93,8 @@
             <div class="col-xs-12">
               <button
                 type="button"
-                class="btn btn-success"
+                mat-raised-button
+                color="accent"
                 (click)="onAddIngredient()">Add ingredient</button>
             </div>
           </div>
@@ -98,11 +105,13 @@
         <div class="col-xs-12 btn-group">
           <button
             type="submit"
-            class="btn btn-success"
+            mat-raised-button
+            color="primary"
             [disabled]="!recipeForm.valid"
           >Save</button>
           <button
-            class="btn btn-danger"
+            mat-raised-button
+            color="warn"
             type="button"
             (click)="onCancel()"
           >Cancel</button>

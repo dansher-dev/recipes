@@ -7,40 +7,42 @@
     </div>-->
     <app-alert [message]="error" *ngIf="error" (modalClose)="onHandleError()"></app-alert>
     <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading; else loadingComp">
-      <div class="form-group">
-        <label for="email">E-Mail</label>
+      <mat-form-field class="full-width">
         <input
           type="email"
           id="email"
-          class="form-control"
+          matInput
           ngModel
+          placeholder="Email"
           name="email"
           required
           email
         >
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
+      </mat-form-field>
+      <mat-form-field class="full-width">
         <input
           type="password"
           id="password"
-          class="form-control"
+          matInput
+          placeholder="Password"
           ngModel
           name="password"
           required
           minlength="6"
         >
-      </div>
+      </mat-form-field>
       <div class="text-center">
         <button
-          class="btn btn-primary"
+          mat-raised-button
+          color="primary"
           type="submit"
         >
           {{ isLoginMode ? 'Login' : 'Sign up' }}
         </button>
         <br>
         <button
-          class="btn btn-primary"
+          mat-raised-button
+          color="primary"
           (click)="onSwitchMode()"
           type="button">
           Switch to {{ isLoginMode ? 'Sign up' : 'Login' }}

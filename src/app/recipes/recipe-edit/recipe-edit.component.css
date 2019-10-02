@@ -11,3 +11,6 @@ textarea.ng-invalid.ng-dirty{
 .img-responsive {
   max-height: 300px;
 }
+mat-icon {
+  margin-bottom: 10px;
+}
