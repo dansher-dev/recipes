@@ -1,7 +1,16 @@
 # Recipes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.1.
+App for recipes and sopping-list management. Supported authentication with firebase. Firebase database used to store recipes.
 
+![Auth page](./src/assets/AuthPage.png?raw=true "Auth page")\
+         Auth page
+![Shopping list page](./src/assets/ShoppingListPage.png?raw=true "Shopping list page")\
+         Shopping list page
+![Recipe Detail](./src/assets/RecipeDetails.png?raw=true "Recipe Detail")\
+         Recipe detail
+![Auth page](./src/assets/RecipeEdit.png?raw=true "Recipe edit")\
+         Recipe edit
+         
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
